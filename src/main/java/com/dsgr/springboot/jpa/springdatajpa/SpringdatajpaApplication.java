@@ -29,7 +29,42 @@ public class SpringdatajpaApplication implements CommandLineRunner {
 		// list();
 		// findOne();
 		// create();
-		update();
+		// update();
+		// delete();
+	}
+
+	@Transactional
+	public void delete2() {
+		personRepository.findAll().forEach(System.out::println);
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Ingrese el id para eliminar el registro");
+		Long id = scanner.nextLong();
+		
+		personRepository.findById(id).ifPresentOrElse(personRepository::delete, () -> System.out.println("No existe el registro con ese id: " + id));
+
+		// Optional<Person> optionalPerson = personRepository.findById(id);
+		// if(optionalPerson.isPresent()){
+		// Person person = optionalPerson.get();
+		// personRepository.delete(person);
+		// }else {
+		// System.out.println("No existe el registro con id: " + id);
+		// }
+
+		personRepository.findAll().forEach(System.out::println);
+		scanner.close();
+	}
+
+	@Transactional
+	public void delete() {
+
+		personRepository.findAll().forEach(System.out::println);
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Ingrese el id para eliminar el registro");
+		Long id = scanner.nextLong();
+		personRepository.deleteById(id);
+		personRepository.findAll().forEach(System.out::println);
+		scanner.close();
+
 	}
 
 	@Transactional
