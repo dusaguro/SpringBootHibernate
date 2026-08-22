@@ -31,6 +31,30 @@ public class SpringdatajpaApplication implements CommandLineRunner {
 		// create();
 		// update();
 		// delete();
+		perzonalizedQuieries();
+	}
+
+	public void perzonalizedQuieries() {
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.println("[========== Consultar solo el nombre por el id ==========]");
+		System.out.println("Ingrese el id para encontrar el nombre:");
+		Long id = scanner.nextLong();
+		String name = personRepository.getNameById(id);
+		System.out.println(name);
+
+		System.out.println("[========== Consultar solo el id por el id ==========]");
+		System.out.println("Ingrese el id para encontrar el id:");
+		id = scanner.nextLong();
+		Long idFound = personRepository.getIdById(id);
+		System.out.println(idFound);
+
+		System.out.println("[========== Consultar solo el nombre completo por el id ==========]");
+		System.out.println("Ingrese el id para encontrar el nombre completo:");
+		id = scanner.nextLong();
+		String fullName = personRepository.getFullNameById(id);
+		System.out.println(fullName);
+
 	}
 
 	@Transactional
@@ -39,8 +63,9 @@ public class SpringdatajpaApplication implements CommandLineRunner {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Ingrese el id para eliminar el registro");
 		Long id = scanner.nextLong();
-		
-		personRepository.findById(id).ifPresentOrElse(personRepository::delete, () -> System.out.println("No existe el registro con ese id: " + id));
+
+		personRepository.findById(id).ifPresentOrElse(personRepository::delete,
+				() -> System.out.println("No existe el registro con ese id: " + id));
 
 		// Optional<Person> optionalPerson = personRepository.findById(id);
 		// if(optionalPerson.isPresent()){
