@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dsgr.springboot.jpa.springdatajpa.dto.PersonDto;
 import com.dsgr.springboot.jpa.springdatajpa.entities.Person;
 import com.dsgr.springboot.jpa.springdatajpa.repositories.PersonRepository;
 
@@ -31,54 +32,71 @@ public class SpringdatajpaApplication implements CommandLineRunner {
 		// create();
 		// update();
 		// delete();
-		perzonalizedQuieries();
+		// perzonalizedQuieries();
+		perzonalizedQuieries2();
+
+
 	}
 
+	@Transactional
+	public void perzonalizedQuieries2() {
+
+		System.out.println("[========== Consultar Persona y Lenguaje ==========]");
+		List<Object[]> personsRegs = personRepository.findAllMixPerson();
+
+		personsRegs.forEach(reg -> {
+			System.out.println("Lenguaje: " + reg[1] + ", Persona: " + reg[0]);
+		});
+
+		System.out.println("[========== Consultar Instancia Personalizada Nombre y Apellido ==========]");
+		List<Person> persons = personRepository.findAllObjectPersonPersonalized();
+		persons.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Instancia DTO Nombre y Apellido ==========]");
+		List<PersonDto> personsDto = personRepository.findAllPersonDto();
+		personsDto.forEach(System.out::println);
+
+	}
+
+	@Transactional(readOnly = true)
 	public void perzonalizedQuieries() {
 		Scanner scanner = new Scanner(System.in);
 
-		// System.out.println("[========== Consultar solo el nombre por el id
-		// ==========]");
-		// System.out.println("Ingrese el id para encontrar el nombre:");
-		// Long id = scanner.nextLong();
-		// String name = personRepository.getNameById(id);
-		// System.out.println(name);
+		System.out.println("[========== Consultar solo el nombre por el id ==========]");
+		System.out.println("Ingrese el id para encontrar el nombre:");
+		Long id = scanner.nextLong();
+		String name = personRepository.getNameById(id);
+		System.out.println(name);
 
-		// System.out.println("[========== Consultar solo el id por el id ==========]");
-		// System.out.println("Ingrese el id para encontrar el id:");
-		// id = scanner.nextLong();
-		// Long idFound = personRepository.getIdById(id);
-		// System.out.println(idFound);
+		System.out.println("[========== Consultar solo el id por el id ==========]");
+		System.out.println("Ingrese el id para encontrar el id:");
+		id = scanner.nextLong();
+		Long idFound = personRepository.getIdById(id);
+		System.out.println(idFound);
 
-		// System.out.println("[========== Consultar solo el nombre completo por el id
-		// ==========]");
-		// System.out.println("Ingrese el id para encontrar el nombre completo:");
-		// Long id = scanner.nextLong();
-		// String fullName = personRepository.getFullNameById(id);
-		// System.out.println(fullName);
+		System.out.println("[========== Consultar solo el nombre completo por el id ==========]");
+		System.out.println("Ingrese el id para encontrar el nombre completo:");
+		id = scanner.nextLong();
+		String fullName = personRepository.getFullNameById(id);
+		System.out.println(fullName);
 
 		System.out.println("[========== Consultar Campos Personalizados por el id ==========]");
 		System.out.println("Ingrese el id para recibir los campos:");
-		Long id = scanner.nextLong();
+		id = scanner.nextLong();
 		Optional<Object> optionalData = personRepository.obtenerPersonDataById(id);
 		if (optionalData.isPresent()) {
 			Object[] personData = (Object[]) optionalData.get();
 			System.out.println("id: " + personData[0] + " nombre: " + personData[1] + " apellido: " + personData[2]
 					+ " lenguaje: " + personData[3]);
-		}else {System.out.println("Registro no encontrado");}
+		} else {
+			System.out.println("Registro no encontrado");
+		}
 		System.out.println("[========== Consultar Campos Personalizados Lista ==========]");
 		List<Object[]> personsDatas = personRepository.obtenerPersonDataList();
 		personsDatas.forEach(reg -> {
 			System.out
 					.println("id: " + reg[0] + " nombre: " + reg[1] + " apellido: " + reg[2] + " lenguaje: " + reg[3]);
 		});
-
-		// System.out.println("[========== Consultar solo el nombre completo por el id
-		// ==========]");
-		// System.out.println("Ingrese el id para encontrar el nombre completo:");
-		// id = scanner.nextLong();
-		// String fullName = personRepository.getFullNameById(id);
-		// System.out.println(fullName);
 
 	}
 
