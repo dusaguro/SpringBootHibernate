@@ -33,12 +33,81 @@ public class SpringdatajpaApplication implements CommandLineRunner {
 		// update();
 		// delete();
 		// perzonalizedQuieries();
-		perzonalizedQuieries2();
-
+		// perzonalizedQuieries2();
+		// personalizedQeriesDistinc();
+		// personalizedQueriesConcatUpperLowerCase();
+		personalizedQueriesBetween();
 
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
+	public void personalizedQueriesBetween() {
+		System.out.println("[========== Consultar Rango Ids ==========]");
+		List<Person> persons = personRepository.findAllBetweenIds();
+		persons.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Rango Nombres ==========]");
+		persons = personRepository.findAllBetweenNames();
+		persons.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Rango Nombres y Ordenar ==========]");
+		persons = personRepository.findAllBetweenNamesOrderByNames();
+		persons.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Rango Ids y Ordenar por Lenguajes ==========]");
+		persons = personRepository.findAllBetweenIdsOrderByLanguages();
+		persons.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Rango Nombres y Ordenar Descendente ==========]");
+		persons = personRepository.findAllBetweenNamesOrderByNamesDesc();
+		persons.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Rango Nombres Completos y Ordenar Descendente ==========]");
+		persons = personRepository.findAllBetweenNamesOrderByFullNamesDesc();
+		persons.forEach(System.out::println);
+
+	}
+
+	@Transactional(readOnly = true)
+	public void personalizedQueriesConcatUpperLowerCase() {
+		System.out.println("[========== Consultar Nombres Completos ==========]");
+		List<String> fullNames = personRepository.findAllFullNameConcat();
+		fullNames.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Nombres Completos Alternativa ==========]");
+		fullNames = personRepository.findAllFullNameConcatAlt();
+		fullNames.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Nombres Completos Mayusculas ==========]");
+		fullNames = personRepository.findAllFullNameConcatAltUpper();
+		fullNames.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Nombres Completos Minusculas ==========]");
+		fullNames = personRepository.findAllFullNameConcatAltLower();
+		fullNames.forEach(System.out::println);
+	}
+
+	@Transactional(readOnly = true)
+	public void personalizedQeriesDistinc() {
+		System.out.println("[========== Consultar Nombres ==========]");
+		List<String> nombres = personRepository.findAllNames();
+		nombres.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Nombres Unicos ==========]");
+		List<String> nombresUnicos = personRepository.findAllNamesDistinct();
+		nombresUnicos.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Lenguajes Unicos ==========]");
+		List<String> languages = personRepository.findAllProgrammingLanguageDistinct();
+		languages.forEach(System.out::println);
+
+		System.out.println("[========== Consultar y Contar Lenguajes Unicos ==========]");
+		Long countLanguages = personRepository.findAllProgrammingLanguageDistinctCount();
+		System.out.println("Lenguajes: " + countLanguages);
+
+	}
+
+	@Transactional(readOnly = true)
 	public void perzonalizedQuieries2() {
 
 		System.out.println("[========== Consultar Persona y Lenguaje ==========]");

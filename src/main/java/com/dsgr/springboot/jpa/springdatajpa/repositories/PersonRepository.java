@@ -11,6 +11,54 @@ import com.dsgr.springboot.jpa.springdatajpa.entities.Person;
 
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
+    @Query("select p from Person p where p.id between 2 and 5 order by p.programmingLanguage")
+    List<Person> findAllBetweenIdsOrderByLanguages();
+
+    @Query("select p from Person p where p.name between 'J' and 'P' order by p.name")
+    List<Person> findAllBetweenNamesOrderByNames();
+
+    @Query("select p from Person p where p.name between 'J' and 'P' order by p.name desc")
+    List<Person> findAllBetweenNamesOrderByNamesDesc();
+
+    @Query("select p from Person p where p.name between 'J' and 'P' order by p.name desc, p.lastname desc")
+    List<Person> findAllBetweenNamesOrderByFullNamesDesc();
+
+    List<Person> findByIdBetween(Long id1, Long id2);
+
+    List<Person> findByNameBetween(String name1, String name2);
+
+    List<Person> findByNameBetweenOrderByNameDesc(String name1, String name2);
+
+    @Query("select p from Person p where p.id between 2 and 5")
+    List<Person> findAllBetweenIds();
+
+    @Query("select p from Person p where p.name between 'J' and 'P'")
+    List<Person> findAllBetweenNames();
+
+    @Query("select concat(p.name, ' ', p.lastname) as fullname from Person p")
+    List<String> findAllFullNameConcat();
+
+    @Query("select p.name || ' ' || p.lastname as fullname from Person p")
+    List<String> findAllFullNameConcatAlt();
+
+    @Query("select upper(p.name || ' ' || p.lastname) as fullname from Person p")
+    List<String> findAllFullNameConcatAltUpper();
+
+    @Query("select lower(concat(p.name, ' ', p.lastname)) as fullname from Person p")
+    List<String> findAllFullNameConcatAltLower();
+
+    @Query("select p.name from Person p")
+    List<String> findAllNames();
+
+    @Query("select distinct(p.name) from Person p")
+    List<String> findAllNamesDistinct();
+
+    @Query("select distinct(p.programmingLanguage) from Person p")
+    List<String> findAllProgrammingLanguageDistinct();
+
+    @Query("select count(distinct(p.programmingLanguage)) from Person p")
+    Long findAllProgrammingLanguageDistinctCount();
+
     @Query("select new com.dsgr.springboot.jpa.springdatajpa.dto.PersonDto(p.name, p.lastname) from Person p")
     List<PersonDto> findAllPersonDto();
 
