@@ -11,6 +11,47 @@ import com.dsgr.springboot.jpa.springdatajpa.entities.Person;
 
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
+    @Query("select p from Person p where p.id in (1, 2, 5)")
+    List<Person> getPersonByIds();
+
+    @Query("select p from Person p where p.id in ?1")
+    List<Person> getPersonByIds(List<Long> ids);
+
+    @Query("select p.name, length(p.name) from Person p where length(p.name)=(select min(length(p.name)) from Person p)")
+    List<Object[]> getShorterName();
+
+    @Query("select p from Person p where p.id=(select max(p.id) from Person p)")
+    Optional<Person> getLastPerson();
+
+    @Query("select min(p.id), max(p.id), sum(p.id), avg(length(p.name)), count(p.id) from Person p")
+    Object getResumeAggregationFunctions();
+
+    @Query("select sum(length(p.name)) from Person p")
+    Integer getSumLengthName();
+
+    @Query("select min(length(p.name)) from Person p")
+    Integer getMinNameLength();
+
+    @Query("select max(length(p.name)) from Person p")
+    Integer getMaxNameLength();
+
+    @Query("select p.name, length(p.name) from Person p")
+    List<Object[]> getPersonsNameLength();
+
+    @Query("select count(p) from Person p")
+    Long totalPersons();
+
+    @Query("select min(p.id) from Person p")
+    Long minId();
+
+    @Query("select max(p.id) from Person p")
+    Long maxID();
+
+    List<Person> findAllByOrderByNameDesc();
+
+    @Query("select p from Person p order by p.name desc")
+    List<Person> getAllOrdered();
+
     @Query("select p from Person p where p.id between 2 and 5 order by p.programmingLanguage")
     List<Person> findAllBetweenIdsOrderByLanguages();
 

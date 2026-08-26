@@ -36,8 +36,40 @@ public class SpringdatajpaApplication implements CommandLineRunner {
 		// perzonalizedQuieries2();
 		// personalizedQeriesDistinc();
 		// personalizedQueriesConcatUpperLowerCase();
-		personalizedQueriesBetween();
+		// personalizedQueriesBetween();
+		// queriesAggregationFunctions();
+		subqueries();
 
+	}
+
+	@Transactional(readOnly = true)
+	public void subqueries() {
+		System.out.println("[========== Consultar Nombre Mas Corto y Su Tamaño ==========]");
+		List<Object[]> persons = personRepository.getShorterName();
+		persons.forEach(p -> System.out.println("Name: " + p[0] + " Length: " + p[1]));
+
+		System.out.println("[========== Consultar Ultimo Registro ==========]");
+		Optional<Person> person = personRepository.getLastPerson();
+		person.ifPresentOrElse(System.out::println, () -> {
+			System.out.println("No existe el registro");
+		});
+
+	}
+
+	@Transactional(readOnly = true)
+	public void queriesAggregationFunctions() {
+
+		System.out.println("[========== Consultar Nombres y Su Tamaño ==========]");
+		List<Object[]> persons = personRepository.getPersonsNameLength();
+		persons.forEach(p -> System.out.println("Name: " + p[0] + " Length: " + p[1]));
+
+		System.out.println("[========== Consultar Nombre Minimo ==========]");
+		Integer min = personRepository.getMinNameLength();
+		System.out.println("Min: " + min);
+
+		System.out.println("[========== Consultar Nombre Maximo ==========]");
+		Integer max = personRepository.getMaxNameLength();
+		System.out.println("Max: " + max);
 	}
 
 	@Transactional(readOnly = true)
@@ -64,6 +96,10 @@ public class SpringdatajpaApplication implements CommandLineRunner {
 
 		System.out.println("[========== Consultar Rango Nombres Completos y Ordenar Descendente ==========]");
 		persons = personRepository.findAllBetweenNamesOrderByFullNamesDesc();
+		persons.forEach(System.out::println);
+
+		System.out.println("[========== Consultar Nombres Completos y Ordenar Ascendente ==========]");
+		persons = personRepository.getAllOrdered();
 		persons.forEach(System.out::println);
 
 	}
