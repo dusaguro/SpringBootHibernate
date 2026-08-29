@@ -30,7 +30,7 @@ public class SpringdatajpaApplication implements CommandLineRunner {
 		// list();
 		// findOne();
 		// create();
-		// update();
+		update();
 		// delete();
 		// perzonalizedQuieries();
 		// perzonalizedQuieries2();
@@ -38,7 +38,7 @@ public class SpringdatajpaApplication implements CommandLineRunner {
 		// personalizedQueriesConcatUpperLowerCase();
 		// personalizedQueriesBetween();
 		// queriesAggregationFunctions();
-		subqueries();
+		// subqueries();
 
 	}
 
